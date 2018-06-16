@@ -11,7 +11,8 @@ import TodoModel from './Todo.model';
 
 interface IProps {
   todo: TodoModel,
-  updateTodo: (todo: TodoModel) => void
+  updateTodo: (todo: TodoModel) => void,
+  deleteTodo: (id: string) => void,
 }
 
 interface IMyOwnProps {
@@ -19,11 +20,14 @@ interface IMyOwnProps {
 }
 
 interface IDispatchProps {
-  updateTodo: (todo: TodoModel) => void
+  updateTodo: (todo: TodoModel) => void,
+  deleteTodo: (id: string) => void,
 }
 
-const Todo = ({ todo, updateTodo }: IProps) => {
-  const onChangeCheckbox = (event: any) => updateTodo({...todo, isDone: event.targert.cheched})
+const Todo = ({ todo, updateTodo, deleteTodo }: IProps) => {
+  const onChangeCheckbox = (event: any) => updateTodo({...todo, isDone: event.target.checked})
+  const onDeleteClick = () => deleteTodo(todo.id);
+
   return (
     <ListItem>
         <Checkbox
@@ -32,15 +36,16 @@ const Todo = ({ todo, updateTodo }: IProps) => {
         />
         <ListItemText primary={todo.title} />
         <ListItemSecondaryAction>
-            <IconButton aria-label="Comments">
-                <DeleteIcon />
-            </IconButton>
+          <IconButton aria-label="Comments" onClick={onDeleteClick}>
+            <DeleteIcon />
+          </IconButton>
         </ListItemSecondaryAction>
     </ListItem>
   )
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<fromActions.Actions>) => ({
+  deleteTodo: (id: string) => dispatch(fromActions.Actions.deleteTodo(id)),
   updateTodo: (todo: TodoModel) => dispatch(fromActions.Actions.updateTodo(todo))
 })
 

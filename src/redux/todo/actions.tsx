@@ -7,9 +7,12 @@ export const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
 export type UPDATE_INPUT_VALUE = typeof UPDATE_INPUT_VALUE;
 export const UPDATE_TODO = 'UPDATE_TODO';
 export type UPDATE_TODO = typeof UPDATE_TODO;
+export const DELETE_TODO = 'DELETE_TODO';
+export type DELETE_TODO = typeof DELETE_TODO;
 
 export const Actions = {
   addTodo: action<typeof ADD_TODO, string>(ADD_TODO),
+  deleteTodo: action<typeof DELETE_TODO, string>(DELETE_TODO),
   updateInputValue: action<typeof UPDATE_INPUT_VALUE, string>(UPDATE_INPUT_VALUE),
   updateTodo: action<typeof UPDATE_TODO, TodoModel>(UPDATE_TODO),
 }

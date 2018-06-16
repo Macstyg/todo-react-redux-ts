@@ -18,6 +18,7 @@ export default function (state: ITodosState = defaultState, action: fromActions.
     case fromActions.ADD_TODO: 
       return {
         ...state,
+        inputValue: '',
         todos: [
           ...state.todos,
           new Todo(action.payload)
@@ -35,6 +36,17 @@ export default function (state: ITodosState = defaultState, action: fromActions.
         action.payload,
         ...state.todos.slice(idx + 1)
       ]
+      return {
+        ...state,
+        todos
+      }
+    }
+    case fromActions.DELETE_TODO: {
+      const idx = state.todos.findIndex((item) => item.id === action.payload);
+      const todos = [
+        ...state.todos.slice(0, idx),
+        ...state.todos.slice(idx + 1)
+      ];
       return {
         ...state,
         todos
