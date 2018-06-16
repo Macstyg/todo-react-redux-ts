@@ -5,24 +5,43 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as React from 'react';
+import { connect, Dispatch } from 'react-redux';
+import * as fromActions from '../redux/todo/actions';
+import TodoModel from './Todo.model';
 
 interface IProps {
-  title: string,
-  isDone: boolean
+  todo: TodoModel,
+  updateTodo: (todo: TodoModel) => void
 }
 
-const Todo = ({ title, isDone }: IProps) => (
+interface IMyOwnProps {
+  todo: TodoModel,
+}
+
+interface IDispatchProps {
+  updateTodo: (todo: TodoModel) => void
+}
+
+const Todo = ({ todo, updateTodo }: IProps) => {
+  const onChangeCheckbox = (event: any) => updateTodo({...todo, isDone: event.targert.cheched})
+  return (
     <ListItem>
         <Checkbox
-            checked={isDone}
+            checked={todo.isDone}
+            onChange={onChangeCheckbox}
         />
-        <ListItemText primary={title} />
+        <ListItemText primary={todo.title} />
         <ListItemSecondaryAction>
             <IconButton aria-label="Comments">
                 <DeleteIcon />
             </IconButton>
         </ListItemSecondaryAction>
     </ListItem>
-);
+  )
+}
 
-export default Todo;
+const mapDispatchToProps = (dispatch: Dispatch<fromActions.Actions>) => ({
+  updateTodo: (todo: TodoModel) => dispatch(fromActions.Actions.updateTodo(todo))
+})
+
+export default connect<{}, IDispatchProps, IMyOwnProps>(null, mapDispatchToProps)(Todo);
