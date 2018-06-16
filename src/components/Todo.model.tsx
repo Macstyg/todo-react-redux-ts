@@ -1,6 +1,6 @@
 import { ITodo } from "../types/todo";
 
-export default class Todo implements ITodo {
+export default class TodoModel implements ITodo {
   public id: string;
   public title: string = '';
   public isDone: boolean = false;

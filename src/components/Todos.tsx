@@ -1,13 +1,16 @@
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import * as React from 'react';
-import Todo from './Todo';
+import { connect } from 'react-redux';
+import { IState } from '../redux/todoReducer';
+import Todo from './Todo.component';
+import TodoModel from './Todo.model';
 
-const Todos = () => (
+const Todos = ({ todos }: { todos: TodoModel[]}) => (
   <Grid container={true} alignItems="center" justify="center">
     <Grid item={true} xs={6}>
       <List>
-      {[{id: 1, title: 'Todo 1', isDone: false}, {id: 2, title: 'Todo 2', isDone: true}].map((item) => {
+      {todos.map(item => {
         return <Todo key={item.id} title={item.title} isDone={item.isDone}/>
       })}
       </List>
@@ -15,4 +18,8 @@ const Todos = () => (
   </Grid>
 );
 
-export default Todos;
+const mapStateToProps = (state: IState) => ({
+  todos: state.todos
+});
+
+export default connect(mapStateToProps, null)(Todos);
