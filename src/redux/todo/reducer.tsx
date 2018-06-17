@@ -4,11 +4,13 @@ import * as fromActions from './actions';
 
 export interface ITodosState {
   readonly todos: TodoModel[],
-  readonly inputValue: string
+  readonly inputValue: string,
+  readonly loading: boolean,
 }
 
 const defaultState: ITodosState = {
   inputValue: '',
+  loading: false,
   todos: [],
 }
 
@@ -52,6 +54,19 @@ export default function (state: ITodosState = defaultState, action: fromActions.
         todos
       }
     }
+    case fromActions.FETCH_TODOS:
+      return {
+        ...state,
+        loading: true
+      }
+    case fromActions.FINISH_FETCH_TODOS: 
+      return {
+        ...state,
+        loading: false,
+        todos: [
+          ...action.payload
+        ],
+      }
   }
   return state
 }
